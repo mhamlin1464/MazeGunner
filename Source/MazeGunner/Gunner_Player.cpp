@@ -44,6 +44,7 @@ void AGunner_Player::BeginPlay()
 			MyAnimInstance = AnimInstance;
 		}
 	}
+
 }
 
 // Called every frame
@@ -87,6 +88,7 @@ void AGunner_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AGunner_Player::StopJump);
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AGunner_Player::ImCrouch);
 	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AGunner_Player::NotCrouch);
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AGunner_Player::Interact);
 }
 void AGunner_Player::ImCrouch() {
 	//Sets the player to crouching
@@ -131,4 +133,22 @@ void AGunner_Player::StartJumping() {
 void AGunner_Player::StopJump() {
 	//Sets the player stop jumping
 	bPressedJump = false;
+}
+
+void AGunner_Player::Interact() {
+	//Check if the player is overlapping with a pickup item
+	TArray<AActor*> OverlappingActors;
+	GetOverlappingActors(OverlappingActors);
+	for (AActor* Actor : OverlappingActors)
+	{
+		if (Actor->IsA(AAPickupItem::StaticClass()))
+		{
+			AAPickupItem* PickupItem = Cast<AAPickupItem>(Actor);
+			if (PickupItem)
+			{
+				PickupItem->OnPickup();
+				break;
+			}
+		}
+	}
 }

@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "Gunner_Animation.h"
+#include "APickupItem.h"
 #include "Gunner_Player.generated.h"
 
 UCLASS()
@@ -65,4 +66,7 @@ public:
 
 	UPROPERTY()
 	class UGunner_Animation* MyAnimInstance;
+
+	UFUNCTION()
+	void Interact();
 };

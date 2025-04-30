@@ -34,6 +34,9 @@ void UGunner_Animation::NativeUpdateAnimation(float DeltaSeconds)
 	speed = Velocity.Size();
 
 	//Update Running State
-	bIsRunning = (MovementComponent->MaxWalkSpeed > 600.0f);
+	bIsRunning = (MovementComponent->MaxWalkSpeed >= 600.0f);
+
+	UE_LOG(LogTemp, Warning, TEXT("Speed:%f, IsRunning: %d"), speed, bIsRunning);
+	
 }
 

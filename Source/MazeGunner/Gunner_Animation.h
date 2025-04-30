@@ -15,12 +15,14 @@ class MAZEGUNNER_API UGunner_Animation : public UAnimInstance
 	GENERATED_BODY()
 
 public:
-
-	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
 	float speed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
 	bool bIsRunning;
+
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
+	
 	
 };
