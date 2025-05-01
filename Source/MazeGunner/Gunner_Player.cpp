@@ -59,7 +59,7 @@ void AGunner_Player::Tick(float DeltaTime)
 			MyAnimInstance->speed = Speed;
 
 			// Update Running State
-			MyAnimInstance->bIsRunning = (Speed > 0.0f);
+			MyAnimInstance->bIsRunning = (Speed >= 600.0f);
 		}
 	//Smoothly interpolate the camera position based on the crouch state
 	FVector TargetPosition = FMath::Lerp(StandingCameraPosition, CrouchingCameraPosition, CameraTransitionAlpha);
@@ -146,9 +146,11 @@ void AGunner_Player::Interact() {
 			AAPickupItem* PickupItem = Cast<AAPickupItem>(Actor);
 			if (PickupItem)
 			{
+				PickupItem->AttachToCharacter();
 				PickupItem->OnPickup();
 				break;
 			}
 		}
 	}
 }
+

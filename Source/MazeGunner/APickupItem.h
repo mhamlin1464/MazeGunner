@@ -40,6 +40,12 @@ public:
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
 		bool bFromSweep, const FHitResult& SweepResult);
 
-	
+	UFUNCTION()
+	void AttachToCharacter();
+
+
+private:
+	ACharacter* OverlappingCharacter;// Pointer to the overlapping character
+	bool bIsPickedUp; // Tracks if the weapons has been picked up
 
 };
