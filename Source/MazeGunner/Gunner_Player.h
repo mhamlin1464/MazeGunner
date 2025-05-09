@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "Gunner_Animation.h"
 #include "APickupItem.h"
+#include "Bullets.h"
 #include "Gunner_Player.generated.h"
 
 UCLASS()
@@ -69,4 +70,14 @@ public:
 
 	UFUNCTION()
 	void Interact();
+
+	UFUNCTION()
+	void FireWeapon();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	UStaticMeshComponent* WeaponMesh;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<class ABullets> BulletClass;
+	
 };
