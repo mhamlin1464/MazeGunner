@@ -79,5 +79,16 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	TSubclassOf<class ABullets> BulletClass;
+
+	//Variables to keep track of the bullets
+	int32 MaxBullets;
+
+	int32 CurrentBullets;
+
+	//Function to reload
+	UFUNCTION()
+	void Reload();
+
+
 	
 };

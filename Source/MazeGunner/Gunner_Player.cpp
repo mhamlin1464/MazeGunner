@@ -33,6 +33,10 @@ AGunner_Player::AGunner_Player()
 
 	WeaponMesh->SetupAttachment(GetMesh(), TEXT("ik_hand_r_gun_socket"));
 
+	//Variables for bullets
+	MaxBullets = 30;
+	CurrentBullets = 0;
+
 
 
 }
@@ -97,6 +101,7 @@ void AGunner_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AGunner_Player::NotCrouch);
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AGunner_Player::Interact);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AGunner_Player::FireWeapon);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AGunner_Player::Reload);
 }
 void AGunner_Player::ImCrouch() {
 	//Sets the player to crouching
@@ -176,29 +181,40 @@ void AGunner_Player::FireWeapon()
 		UE_LOG(LogTemp, Warning, TEXT("WeaponMesh is not set!"));
 		return;
 	}
-
-	//Get the MuzzleSockeet Location and rotation
-	FVector MuzzleLocation = WeaponMesh->GetSocketLocation(TEXT("MuzzleSocket"));
-	FRotator MuzzleRotation = WeaponMesh->GetSocketRotation(TEXT("MuzzleSocket"));
-
-	//Spawn the bullet
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = this;
-	SpawnParams.Instigator = GetInstigator();
-
-	ABullets* Bullet = GetWorld()->SpawnActor<ABullets>(BulletClass, MuzzleLocation, MuzzleRotation, SpawnParams);
-	if (Bullet)
+	//Checking for bullets
+	if (CurrentBullets <= MaxBullets)
 	{
-		//Set the bullet's velocity
-		FVector LaunchDirection = MuzzleRotation.Vector();
-		Bullet->BulletMovement->SetVelocityInLocalSpace(LaunchDirection * Bullet->BulletMovement->InitialSpeed);
-		Bullet->BulletMovement->Activate();
+		CurrentBullets++;
+
+
+		//Get the MuzzleSockeet Location and rotation
+		FVector MuzzleLocation = WeaponMesh->GetSocketLocation(TEXT("MuzzleSocket"));
+		FRotator MuzzleRotation = WeaponMesh->GetSocketRotation(TEXT("MuzzleSocket"));
+
+		//Spawn the bullet
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = GetInstigator();
+
+		ABullets* Bullet = GetWorld()->SpawnActor<ABullets>(BulletClass, MuzzleLocation, MuzzleRotation, SpawnParams);
+		if (Bullet)
+		{
+			//Set the bullet's velocity
+			FVector LaunchDirection = MuzzleRotation.Vector();
+			Bullet->BulletMovement->SetVelocityInLocalSpace(LaunchDirection * Bullet->BulletMovement->InitialSpeed);
+			Bullet->BulletMovement->Activate();
+
+		}
 
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Fireweapon called!"));
-	UE_LOG(LogTemp, Warning, TEXT("MuzzleLocation: %s"), *MuzzleLocation.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("MuzzleRotation: %s"), *MuzzleRotation.ToString());
-	
-	
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("No bullets left!"));
+	}
+}
+
+//Function to reset bullets
+void AGunner_Player::Reload()
+{
+	CurrentBullets = 0;
 }
 
