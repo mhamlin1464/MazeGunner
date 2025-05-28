@@ -27,11 +27,11 @@ AGunner_Player::AGunner_Player()
 	Gunner_Camera->SetRelativeLocation(FVector(10.0f, 0.0f, 110.0f));
 	Gunner_Camera->bUsePawnControlRotation = true;
 
-	//Setting up the weapon mesh
+	//Setting up the weapon mesh for first person
 	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
-	//"ik_hand_r_gun_socket"
-
-	WeaponMesh->SetupAttachment(GetMesh(), TEXT("ik_hand_r_gun_socket"));
+	WeaponMesh->SetupAttachment(Gunner_Camera);
+	WeaponMesh->SetRelativeLocation(FVector(25.0f, 20.0f, -40.0f)); //Adjust as needed
+	WeaponMesh->SetRelativeRotation(FRotator(0.0f, 0.0f, 269.0f)); //Adjust as needed
 
 	//Variables for bullets
 	MaxBullets = 30;
@@ -101,7 +101,7 @@ void AGunner_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AGunner_Player::NotCrouch);
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AGunner_Player::Interact);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AGunner_Player::FireWeapon);
-	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AGunner_Player::Reload);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed,this,&AGunner_Player::Reload);
 }
 void AGunner_Player::ImCrouch() {
 	//Sets the player to crouching
