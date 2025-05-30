@@ -30,7 +30,7 @@ AGunner_Player::AGunner_Player()
 	//Setting up the weapon mesh for first person
 	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
 	WeaponMesh->SetupAttachment(Gunner_Camera);
-	WeaponMesh->SetRelativeLocation(FVector(25.0f, 20.0f, -40.0f)); //Adjust as needed
+	WeaponMesh->SetRelativeLocation(FVector(35.0f, 15.0f, -30.0f)); //Adjust as needed
 	WeaponMesh->SetRelativeRotation(FRotator(0.0f, 0.0f, 269.0f)); //Adjust as needed
 
 	//Variables for bullets
