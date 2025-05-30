@@ -35,7 +35,7 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
-	if (BehaviorTreeAsset)
+	if (UseBlackboard(BlackboardAsset, Blackboard))
 	{
 		RunBehaviorTree(BehaviorTreeAsset);
 	}
@@ -49,6 +49,7 @@ void AEnemyAIController::OnPerceptionUpdated(const TArray<AActor*>& UpdatedActor
 		if (Actor && Actor->IsA(AGunner_Player::StaticClass()))
 		{
 			// Assuming you have a blackboard key named "TargetActor"
+			UE_LOG(LogTemp, Warning, TEXT("Enemy sees the player!"));
 			if (Blackboard)
 			{
 				Blackboard->SetValueAsObject("TargetActor", Actor);

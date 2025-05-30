@@ -189,22 +189,22 @@ void AGunner_Player::FireWeapon()
 
 		//Get the MuzzleSockeet Location and rotation
 		FVector MuzzleLocation = WeaponMesh->GetSocketLocation(TEXT("MuzzleSocket"));
-		FRotator MuzzleRotation = WeaponMesh->GetSocketRotation(TEXT("MuzzleSocket"));
+		FRotator CameraRotation = Gunner_Camera->GetComponentRotation();
 
 		//Spawn the bullet
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = this;
 		SpawnParams.Instigator = GetInstigator();
 
-		ABullets* Bullet = GetWorld()->SpawnActor<ABullets>(BulletClass, MuzzleLocation, MuzzleRotation, SpawnParams);
-		if (Bullet)
+		ABullets* Bullet = GetWorld()->SpawnActor<ABullets>(BulletClass, MuzzleLocation, CameraRotation, SpawnParams);
+		/*if (Bullet)
 		{
 			//Set the bullet's velocity
-			FVector LaunchDirection = MuzzleRotation.Vector();
+			FVector LaunchDirection = CameraRotation.Vector();
 			Bullet->BulletMovement->SetVelocityInLocalSpace(LaunchDirection * Bullet->BulletMovement->InitialSpeed);
 			Bullet->BulletMovement->Activate();
 
-		}
+		}*/
 
 	}
 	else {

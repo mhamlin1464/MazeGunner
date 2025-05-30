@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BlackboardData.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
 #include "Gunner_Player.h"
@@ -22,6 +23,11 @@ class MAZEGUNNER_API AEnemyAIController : public AAIController
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	UBehaviorTree* BehaviorTreeAsset;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "AI")
+	UBlackboardData* BlackboardAsset;
+
+	UBlackboardComponent* Blackboard;
 
 	virtual void OnPossess(APawn* InPawn) override;
 	AEnemyAIController();
